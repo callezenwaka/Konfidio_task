@@ -1,7 +1,5 @@
 import * as dotenv from "dotenv";
 
-// require("@nomiclabs/hardhat-waffle");
-
 import { HardhatUserConfig, task } from "hardhat/config";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
@@ -25,26 +23,13 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
 
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
- const config: HardhatUserConfig = {
-  solidity: "^0.8.4",
-  // solidity: {
-  //   version: "^0.8.4",
-  //   settings: {
-  //     optimizer: {
-  //       enabled: true,
-  //       runs: 200
-  //     }
-  //   }
-  // },
+const config: HardhatUserConfig = {
+  solidity: "0.8.4",
   networks: {
     localhost: {
       url: "http://127.0.0.1:8545"
     },
     hardhat: {
-      // See its defaults
       chainId: 31337
     },
     // ropsten: {
@@ -69,3 +54,5 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
 };
+
+export default config;

@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
 
-// pragma solidity >=0.8.0 <0.9.0;
-pragma solidity 0.8.4;
+pragma solidity >=0.8.0 <0.9.0;
+// pragma solidity 0.8.4;
 
 // import "hardhat/console.sol";
 
+/** @title Blockchain. */
 contract Blockchain {
   // storage variables
   address payable private owner;
