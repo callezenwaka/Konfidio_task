@@ -17,28 +17,18 @@ describe("Blockchain", async function () {
 
   it("Should initialize blockchain", async function () {
     const [owner, addr1, addr2, addr3] = await ethers.getSigners();
-    const result = await blockchain.connect(addr1).init(balances, transactions, blockSize);
-    await result.wait();
+    const init = await blockchain.connect(addr1).init(balances, transactions, blockSize);
+    const response = await init.wait();
 
-    const res = await blockchain.connect(addr2).getAccountBalances(index);
-    console.log(res);
-    expect((res).toNumber()).to.equal(500);
-    
-    // npx hardhat test ./test/Blockchain.test.ts
-    // expect(res.from).to.equal(addr1.address);
-    // expect(res.to).to.equal(services.address);
-    // expect(res.contractAddress).to.equal(null);
-    // expect(res.transactionIndex).to.equal(0);
+    expect(response.from).to.equal(addr1.address);
+    expect(response.to).to.equal(blockchain.address);
   });
 
-  // it("Should return a tenant service", async function () {
-  //   const [owner, addr1, addr2, addr3] = await ethers.getSigners();
+  it("Should return an account balance", async function () {
+    const [owner, addr1, addr2, addr3] = await ethers.getSigners();
 
-  //   const res = await services.connect(addr1).getService(index);
+    const res = await blockchain.connect(addr2).getAccountBalances(index);
 
-  //   expect(res).to.be.an('array').that.is.not.empty;
-  //   expect(res.name).to.equal(name);
-  //   expect(res.cost).to.equal(cost);
-  //   expect(res.index).to.equal(index);
-  // });
+    expect((res).toNumber()).to.equal(500);
+  });
 });

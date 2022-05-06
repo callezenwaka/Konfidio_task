@@ -1,7 +1,6 @@
 import express, {Application, Request, Response, NextFunction} from "express";
 import cors from "cors";
-// import os from "os";
-import interfaces from "./interfaces/index";
+import index from "./routes/index";
 
 const app: Application = express();
 
@@ -20,7 +19,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // Verify request
-app.use('/', interfaces);
+app.use('/', index);
 
 // notfound route handler
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -31,12 +30,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next(error);
 })
 
-// const network = os?.networkInterfaces()?.en0?.find(elm => elm.family=='IPv4')?.address;
 // Set up port and start the server
 app.listen( process.env.PORT, () => {
   console.log(`Server running at:`);
   console.log(`- Local: http://localhost:${process.env.PORT}`);
-  // console.log(`- Network: http://${network}:${process.env.PORT}`);
 });
 
 export default app;

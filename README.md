@@ -9,7 +9,9 @@ npx hardhat accounts
 npx hardhat compile
 npx hardhat clean
 npx hardhat test
+npx hardhat test ./test/Blockchain.test.ts
 npx hardhat node
 node scripts/sample-script.js
+npx hardhat run scripts/deploy.ts --network localhost
 npx hardhat help
 ```

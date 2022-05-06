@@ -1,28 +1,34 @@
 import 'dotenv/config';
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import { ethers } from 'ethers';
+import blockchainABI from "../../artifacts/contracts/Blockchain.sol/Blockchain.json";
+import { blockchainAddress } from '../config';
 
 /**
  * [START INIT]
  * @param {object} req Express request context.
  * @param {object} res Express response context.
  * @param {object} next Express next context.
- * @return {object} json items
- * Login
+ * @return {object} json string
+ * Initialize blockchain
  */
- export const init = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+ export const init = async (req: any, res: Response, next: NextFunction): Promise<any> => {
   try {
-    // Todo: get refresh token from the user
-    const { credential } = req.body;
-    if (!credential) return res.status(400).json("Credential is incorrect!");
+		// TODO: create a provider and initialize blockchain
+    const { balances, transactions, blockSize } = req.body;
+    if (!balances || !transactions || !blockSize) 
+      return res.status(500).json('Invalid transactions!');
 
-    // Todo: create a provider and generate tokens
-    // const provider = new Provider(`${process.env.PRIVATE_KEY}`, `https://ropsten.infura.io/v3/${process.env.PROJECT_ID}`); 
-    // const web3 = new Web3(provider);
-    // const signer = web3.eth.accounts.wallet.add(`0x${credential}`)
+    const provider = new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`);
+    const wallet = new ethers.Wallet(`${process.env.ACCOUNT_PRIVATE_KEY}`);
+    const signer = wallet.connect(provider);
+    const blockchainContract = new ethers.Contract(blockchainAddress, blockchainABI.abi, signer);
+    const response = await blockchainContract.init(balances, transactions, blockSize);
+    await response.wait();
 
-    // res.status(200).json({ address: signer.address, });
-    res.status(200).json('Success');
+    return res.status(200).json('Success');
   } catch (error) {
+    console.log(error);
     return res.status(500).json('Internal Server Error!');
   }
 }
@@ -33,37 +39,24 @@ import { Request, Response, NextFunction } from "express";
  * @param {object} req Express request context.
  * @param {object} res Express response context.
  * @param {object} next Express next context.
- * @return {object} json items
- * Retrieve items
+ * @return {object} json item
+ * Retrieve item
  */
-export const getAccountBalance = async (req: Request, res: Response, next: NextFunction) => {
+export const getAccountBalance = async (req: any, res: Response, next: NextFunction): Promise<any> => {
 	try {
-		// Todo: create a provider and query for account balance
-    // const provider = new Provider(`${process.env.PRIVATE_KEY}`, `https://ropsten.infura.io/v3/${process.env.PROJECT_ID}`); 
-    // const web3 = new Web3(provider);
-    // const signer = web3.eth.accounts.wallet.add(`0x${req.params.id}`)
-    // const networkId = await web3.eth.net.getId();
-    // const coin = new web3.eth.Contract(
-    //   Coin.abi,
-    //   Coin.networks[networkId].address,
-    //   {from: signer.address}
-    // );
-    // const balance = await coin.methods.balanceOf(signer.address).call();
+		// Todo: create a provider and query for balance
+    const { index } = req.params;
+    if (!index) return;
 
-		// if (typeof balance != 'string') {
-		// 	return res.status(200).json('0');
-		// }
-    
-		// return res.status(200).json(balance);
-    res.status(200).json('Success');
+    const provider = new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`);
+    const blockchainContract = new ethers.Contract(blockchainAddress, blockchainABI.abi, provider);
+    const balance = await blockchainContract.getAccountBalances(index);
+    if (!balance) return res.status(200).json(null);
+
+		return res.status(200).json(balance.toNumber());
 	} catch (error) {
     console.log(error);
 		return res.status(500).json('Internal Server Error!');
 	}
 }
 // [END GET ACCOUNT BALANCE]
-
-// export default {
-//   init,
-// 	getAccountBalance,
-// }
