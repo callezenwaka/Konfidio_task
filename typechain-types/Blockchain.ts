@@ -24,9 +24,6 @@ export interface BlockchainInterface extends utils.Interface {
     "balances(uint256)": FunctionFragment;
     "blocksize()": FunctionFragment;
     "getAccountBalances(uint256)": FunctionFragment;
-    "getBlocksize()": FunctionFragment;
-    "getTransaction(uint256)": FunctionFragment;
-    "getTransactionLength()": FunctionFragment;
     "init(uint256[],uint256[3][],uint256)": FunctionFragment;
     "kill()": FunctionFragment;
     "transactions(uint256,uint256)": FunctionFragment;
@@ -40,18 +37,6 @@ export interface BlockchainInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getAccountBalances",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getBlocksize",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getTransaction",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getTransactionLength",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "init",
@@ -71,18 +56,6 @@ export interface BlockchainInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "blocksize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getAccountBalances",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getBlocksize",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getTransaction",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getTransactionLength",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "init", data: BytesLike): Result;
@@ -135,15 +108,6 @@ export interface Blockchain extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getBlocksize(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    getTransaction(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[[BigNumber, BigNumber, BigNumber]]>;
-
-    getTransactionLength(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     init(
       _balances: BigNumberish[],
       _transactions: [BigNumberish, BigNumberish, BigNumberish][],
@@ -171,15 +135,6 @@ export interface Blockchain extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getBlocksize(overrides?: CallOverrides): Promise<BigNumber>;
-
-  getTransaction(
-    index: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<[BigNumber, BigNumber, BigNumber]>;
-
-  getTransactionLength(overrides?: CallOverrides): Promise<BigNumber>;
-
   init(
     _balances: BigNumberish[],
     _transactions: [BigNumberish, BigNumberish, BigNumberish][],
@@ -206,15 +161,6 @@ export interface Blockchain extends BaseContract {
       index: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    getBlocksize(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getTransaction(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, BigNumber, BigNumber]>;
-
-    getTransactionLength(overrides?: CallOverrides): Promise<BigNumber>;
 
     init(
       _balances: BigNumberish[],
@@ -244,15 +190,6 @@ export interface Blockchain extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getBlocksize(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getTransaction(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getTransactionLength(overrides?: CallOverrides): Promise<BigNumber>;
-
     init(
       _balances: BigNumberish[],
       _transactions: [BigNumberish, BigNumberish, BigNumberish][],
@@ -281,17 +218,6 @@ export interface Blockchain extends BaseContract {
 
     getAccountBalances(
       index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getBlocksize(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getTransaction(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getTransactionLength(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

@@ -2,8 +2,6 @@
 
 pragma solidity >=0.8.0 <0.9.0;
 
-// import "hardhat/console.sol";
-
 /** @title Blockchain. */
 contract Blockchain {
   address payable private owner;
@@ -45,7 +43,6 @@ contract Blockchain {
       balances[_transactions[i][0]] -= _transactions[i][2];
       balances[_transactions[i][1]] += _transactions[i][2];
       transactions.push(_transactions[i]);
-      // balances.push(_balances[i]);
     }
 
     return true;

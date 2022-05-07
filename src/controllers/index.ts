@@ -16,8 +16,7 @@ import { blockchainAddress } from '../config';
   try {
 		// TODO: create a provider and initialize blockchain
     const { balances, transactions, blockSize } = req.body;
-    if (!balances || !transactions || !blockSize) 
-      return res.status(500).json('Invalid transactions!');
+    if (!balances || !transactions || !blockSize) return res.status(500).json('Invalid transactions!');
 
     const provider = new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`);
     const wallet = new ethers.Wallet(`${process.env.ACCOUNT_PRIVATE_KEY}`);
@@ -26,9 +25,8 @@ import { blockchainAddress } from '../config';
     const response = await blockchainContract.init(balances, transactions, blockSize);
     await response.wait();
 
-    return res.status(200).json('Success');
+    return res.status(201).json('Created');
   } catch (error) {
-    console.log(error);
     return res.status(500).json('Internal Server Error!');
   }
 }
@@ -47,15 +45,15 @@ export const getAccountBalance = async (req: any, res: Response, next: NextFunct
 		// Todo: create a provider and query for balance
     const { index } = req.params;
     if (!index) return;
+    let balance = null;
 
     const provider = new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`);
     const blockchainContract = new ethers.Contract(blockchainAddress, blockchainABI.abi, provider);
-    const balance = await blockchainContract.getAccountBalances(index);
+    balance = await blockchainContract.getAccountBalances(index);
     if (!balance) return res.status(200).json(null);
 
 		return res.status(200).json(balance.toNumber());
 	} catch (error) {
-    console.log(error);
 		return res.status(500).json('Internal Server Error!');
 	}
 }

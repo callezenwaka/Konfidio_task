@@ -1,27 +1,4 @@
-import { ethers } from 'ethers';
 import { Response, NextFunction } from 'express';
-
-/**
- * [START CHECK SIGNER]
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
- * Define signer middleware.
- */
-export const isSigner = async (req: any, res: Response, next: NextFunction) => {
-    try {
-      // TODO: get signer identity
-      const provider = new ethers.providers.JsonRpcProvider();
-      const wallet = new ethers.Wallet(`${process.env.ACCOUNT_PRIVATE_KEY}`);
-      req.signer = wallet.connect(provider);
-      
-      return next();
-    } 
-    catch (error) {
-      return res.status(501).json('Unauthorized request!');
-    }
-};
-// [END CHECK SIGNER]
 
 /**
  * [START VERIFY TRANSACTION]
