@@ -56,7 +56,7 @@ npx hardhat node
 npx hardhat run scripts/deploy.ts --network localhost
 ```
 
-### Lauch app in dev mode
+### Lauch app in development mode
 ```
 npm run dev
 ```
@@ -66,12 +66,12 @@ npm run dev
 npm test
 ```
 
-### Build app for prod
+### Build app for production
 ```
 npm run build
 ```
 
-### Lauch app in p mode
+### Lauch app in production mode
 ```
 npm run start
 ```
