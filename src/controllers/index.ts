@@ -48,7 +48,9 @@ export const getAccountBalance = async (req: any, res: Response, next: NextFunct
     let balance = null;
 
     const provider = new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`);
-    const blockchainContract = new ethers.Contract(blockchainAddress, blockchainABI.abi, provider);
+    const wallet = new ethers.Wallet(`${process.env.ACCOUNT_PRIVATE_KEY}`);
+    const signer = wallet.connect(provider);
+    const blockchainContract = new ethers.Contract(blockchainAddress, blockchainABI.abi, signer);
     balance = await blockchainContract.getAccountBalances(index);
     if (!balance) return res.status(200).json(null);
 
