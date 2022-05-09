@@ -19,7 +19,7 @@ import { blockchainAddress } from '../config';
     if (!balances || !transactions || !blockSize) return res.status(500).json('Invalid transactions!');
 
     const provider = new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`);
-    const wallet = new ethers.Wallet(`${process.env.ACCOUNT_PRIVATE_KEY}`);
+    const wallet = new ethers.Wallet(`0x${process.env.ACCOUNT_PRIVATE_KEY}`);
     const signer = wallet.connect(provider);
     const blockchainContract = new ethers.Contract(blockchainAddress, blockchainABI.abi, signer);
     const response = await blockchainContract.init(balances, transactions, blockSize);
@@ -48,7 +48,7 @@ export const getAccountBalance = async (req: any, res: Response, next: NextFunct
     let balance = null;
 
     const provider = new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`);
-    const wallet = new ethers.Wallet(`${process.env.ACCOUNT_PRIVATE_KEY}`);
+    const wallet = new ethers.Wallet(`0x${process.env.ACCOUNT_PRIVATE_KEY}`);
     const signer = wallet.connect(provider);
     const blockchainContract = new ethers.Contract(blockchainAddress, blockchainABI.abi, signer);
     balance = await blockchainContract.getAccountBalances(index);
